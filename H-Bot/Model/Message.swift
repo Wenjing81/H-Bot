@@ -10,27 +10,19 @@ import Firebase
 import Combine
 import FirebaseFirestoreSwift
 
-struct Message: Identifiable,Codable {
+struct Message: Identifiable, Codable {
   
-    //DocuentID will assumes firestore doc id as id while reading and viceversa while writing...
+    //DocuentID will assumes firestore doc id as id while reading...
     @DocumentID var id : String?
-    var msg : String = ""
-    var date : Timestamp? = nil
+    var date : Timestamp?
+    var msg : String?
     
-    enum Keys : String,CodingKey{
+    enum CodingKeys : String,CodingKey{
         //these keys are firestore key values...
         //if the key value is different means we must specify here....
         case id
-        case msg = "message "
+        case msg = "message"
         case date
     }
-        //func writeMessage(){
-        
-        //}
-        
-        
-        //func readMessage(){
-        
-        //}
 }
 

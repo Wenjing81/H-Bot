@@ -25,38 +25,29 @@ struct MainView: View {
             
             ZStack {
                 
-                /*Spacer()
-                 .fullScreenCover(isPresented: $shouldShowModal, content: {
-                 Button(action: {shouldShowModal.toggle()}, label: {
-                 Text("Fullscreen cover")
-                 })
-                 })*/
-                
+                //Layout of main page view. 3 different buttons to list messages, create new message or update the user's profile.
                 switch selectedIndex {
                 case 0:
                     NavigationView {
-                    
+                        //View to list messages.
                         MessageListView()
                     }
                     .navigationTitle("Message List")
                     
                     
                 case 1:
-                    /*ScrollView {
-                     Text("TEST")
-                     }*/
                     NavigationView{
-                       // CreateNoteView ()
+                        //View to create a new message.
+                        CreateNoteView ()
                     }.navigationTitle("Create new messages")
                     
                 default:
                     NavigationView {
                         
-                        //ProfileUpdateView()
+                        SignOutView()
                         
                     }
-                    .navigationTitle("Profile update.")
-                    
+                    .navigationTitle("Sign out")
                 }
                 
             }
@@ -69,12 +60,6 @@ struct MainView: View {
             HStack {
                 ForEach(0..<3) { num in
                     Button(action: {
-                        
-                        /* if num == 1 {
-                         shouldShowModal.toggle()
-                         return
-                         }*/
-                        
                         selectedIndex = num
                     }, label: {
                         Spacer()
@@ -88,21 +73,13 @@ struct MainView: View {
                                 .font(.system(size: 24, weight: .bold))
                                 .foregroundColor(selectedIndex == num ? Color(.black) : .init(white: 0.8))
                         }
-                        
-                        
                         Spacer()
                     })
-                    
                 }
             }
-            
-            
         }
     }
 }
-
-
-
 
 struct MainView_Previews: PreviewProvider {
     static var previews: some View {
@@ -110,22 +87,42 @@ struct MainView_Previews: PreviewProvider {
     }
 }
 
-
-
 struct MessageListView: View {
     @State var message = ""
     @ObservedObject var messageViewModel = MainViewModel()
+    @State var docId = ""
+    @State var updateMsg = false
     var body: some View {
-        VStack{
-List{
-                ForEach(self.messageViewModel.messages) { message in
-                    
-                    Text("helloText")
-                    
+        ZStack{
+            VStack{
+                List{
+                    ForEach(self.messageViewModel.messages) { message in
+                        //print("\(self.messageViewModel.messages.count)")
+                        //Text("\(message.date!)")
+                        Text(message.msg!)
+                            .onTapGesture{
+                                self.docId = message.id!
+                                
+                                withAnimation{
+                                    self.updateMsg.toggle()
+                                }
+                            }
+                    }
+                    .onDelete{(indexSet) in
+                        
+                        for index in indexSet{
+                            self.messageViewModel.deleteMessage(docId: index)
+                        }
+                    }
                 }
-}
-            HStack(spacing: 15){}
+                
                 .padding()
+            }
+            
+            if self.updateMsg{
+                UpdateView(messageViewModel: self.messageViewModel,dismiss: self.$updateMsg, docId: self.$docId)
+                
+            }
         }
         .navigationBarTitle("Messages")
         //For deleting Data...
@@ -133,6 +130,8 @@ List{
         .onAppear{
             //or you can call it in init....
             self.messageViewModel.getAllMessages()
+            
+            
         }
     }
 }
@@ -141,11 +140,74 @@ struct MessageListView_Previews: PreviewProvider {
         MessageListView().environmentObject(MainViewModel())
     }
 }
-/*struct CreateNoteView: View {
-    @State var title: String = ""
-    @State var message: String = ""
-    @ObservedObject var MainModel = MainViewModel()
+
+struct UpdateView : View {
+    @ObservedObject var messageViewModel: MainViewModel
+    @Binding var dismiss : Bool
+    @Binding var docId :String
+    @State var message = ""
+    
+    var body: some View{
+        
+        VStack(alignment: .leading, spacing: 25){
+            
+            Text("Message")
+                .font(.title)
+                .fontWeight(.bold)
+            
+            TextField("Message", text: self.$message)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+            
+            HStack(spacing: 15){
+                
+                Button(action: {
+                    
+                    //Updating...
+                    self.messageViewModel.updateMessage(message: self.message, docId: self.docId){
+                        (status) in
+                        
+                        //do something if failed...
+                    }
+                    
+                    self.dismiss.toggle()
+                    
+                }){
+                    Text("Update")
+                        .fontWeight(.bold)
+                }
+                
+                Button(action: {
+                    
+                    withAnimation{
+                        self.dismiss.toggle()
+                    }
+                }){
+                    Text("Cancel")
+                        .fontWeight(.bold)
+                        .foregroundColor(.red)
+                }
+            }
+        }
+        .padding()
+        .background(Color.black)
+        .cornerRadius(15)
+        .padding(.horizontal,25)
+        .background(
+            Color.white.opacity(0.1)
+                .edgesIgnoringSafeArea(.all)
+                .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+        )
+    }
+}
+struct CreateNoteView: View {
+    
+    @State var message = ""
+    @State var title = ""
+    @ObservedObject var messageViewModel = MainViewModel()
+    @State var docId = ""
+    
     var body: some View {
+        
         VStack{
             HStack{
                 Text("Title")
@@ -170,16 +232,19 @@ struct MessageListView_Previews: PreviewProvider {
             
             
             Spacer()
-            Button(action: {
-                //saving messages
+            Button(action:{
                 
-                //auto id...
-                let message = Message(msg: self.message, date: .init(date: Date()))
+                //saving message...
+                //auto id ...
                 
-                self.MainViewModel.addMessage(message:self.message){ (status) in
+                let message = Message(date: .init(date: Date()), msg: self.message)
+                
+                self.messageViewModel.addMessage(message: message){(status) in
+                    
                     //do something
-                    //eg alerts if failed....
+                    //eg alerts if failed
                 }
+                
                 self.message = ""
             }){
                 Text("Send Message")
@@ -194,9 +259,42 @@ struct MessageListView_Previews: PreviewProvider {
         
         Spacer()
     }
-}*/
+    /*HStack(spacing: 15){
+     TextField("Message", text: self.$message)
+     .textFieldStyle(RoundedBorderTextFieldStyle())
+     Button(action:{
+     
+     //saving message...
+     //auto id ...
+     
+     let message = Message(date: .init(date: Date()), msg: self.message)
+     
+     self.messageViewModel.addMessage(message: message){(status) in
+     
+     //do something
+     //eg alerts if failed
+     }
+     
+     self.message = ""
+     })
+     {
+     Text("Add")
+     .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+     }
+     }
+     }
+     }*/
+    
+    struct CreateNoteView_Previews: PreviewProvider {
+        static var previews: some View {
+            CreateNoteView().environmentObject(MainViewModel())
+        }
+    }
+    
+    
+}
 
-/*struct ProfileUpdateView: View {
+struct SignOutView: View {
     @EnvironmentObject var store: AuthViewModel
     var body: some View {
         HStack{
@@ -209,21 +307,6 @@ struct MessageListView_Previews: PreviewProvider {
                     .background(LinearGradient(gradient: Gradient(colors: [Color(.systemGreen), Color(.systemBlue)]), startPoint: /*@START_MENU_TOKEN@*/.leading/*@END_MENU_TOKEN@*/, endPoint: /*@START_MENU_TOKEN@*/.trailing/*@END_MENU_TOKEN@*/))
                     .cornerRadius(5)
             }
-            
         }
-        //func updateProfile(){
-        
-        //}
-        
     }
-    
-}*/
-
-
-
-//.font(.system(size: 14))
-//.frame(height: 100)
-//.background(RoundedRectangle(cornerRadius: 5)
-//.strokeBorder(Color(red: 0, green: 255, blue: 255), lineWidth: 1))
-
-
+}
