@@ -11,9 +11,9 @@ struct ContentView: View {
     
     @EnvironmentObject var viewModel: AuthViewModel
     
-    func getUser(){
-        viewModel.listen()
-    }
+    //func getUser(){
+     //   viewModel.listen()
+    //}
     
     var body: some View {
         Group {
@@ -22,7 +22,8 @@ struct ContentView: View {
             }else {
                 AuthView()
             }
-        }.onAppear(perform: getUser)
+        }
+        //.onAppear(perform: getUser)
     }
 }
 

@@ -18,18 +18,25 @@ struct MessageListView: View {
         
         ZStack {
             VStack {
-                ScrollView() {
+                List {
                     ForEach(self.viewModel.messages) { tempMsg in
                         MessageItemView(
                             displayMessage: tempMsg,
                             currentMsg: self.$currentMsg,
                             docId: self.$docId,
                             updateMsg: self.$updateMsg)
+                            //.background(Color(.systemBlue))
                     }
-                    .background(Color(.systemBlue))
+                    .onDelete { indexSet in
+                        for index in indexSet {
+                            viewModel.deleteMessage(docId: index)
+                        }
+                    }
+                    .padding()
                 }
+                .padding()
             }
-            .padding()
+            //.padding()
             
             if self.updateMsg {
                 UpdateView(

@@ -12,7 +12,11 @@ struct SignOutView: View {
     @EnvironmentObject var viewModel: AuthViewModel
     
     var body: some View {
-        HStack{
+        VStack{
+            Spacer()
+            Text(viewModel.email)
+                .font(.title2)
+            Spacer()
             Button(action: viewModel.signOut) {
                 Text("Sign Out")
                     .frame(maxWidth: .infinity)
@@ -22,6 +26,10 @@ struct SignOutView: View {
                     .background(LinearGradient(gradient: Gradient(colors: [Color(.systemGreen), Color(.systemBlue)]), startPoint: /*@START_MENU_TOKEN@*/.leading/*@END_MENU_TOKEN@*/, endPoint: /*@START_MENU_TOKEN@*/.trailing/*@END_MENU_TOKEN@*/))
                     .cornerRadius(5)
             }
+            Spacer()
+            Text("CopyRight Wenjing.\nVersion 1.6 202188")
+                .font(.title2)
+            Spacer()
         }
         .padding()
         .navigationBarTitle("Sign out?")

@@ -8,9 +8,10 @@
 import SwiftUI
 
 struct CreateNoteView: View {
-
+    
     @EnvironmentObject var viewModel: MainViewModel
     @EnvironmentObject var authViewModel: AuthViewModel
+    @Binding var selectedIndex : Int
     @State var message = ""
     @State var title = ""
     @State var docId = ""
@@ -20,12 +21,12 @@ struct CreateNoteView: View {
         VStack {
             Spacer()
             HStack {
-                Text("Title")
-                TextField("Title",  text: self.$title)
+                Text("Category")
+                TextField("Category",  text: self.$title)
                     .font(.system(size: 14))
                     .padding(12)
                     .background(RoundedRectangle(cornerRadius: 5)
-                    .strokeBorder(Color(red: 0, green: 255, blue: 0), lineWidth: 1))
+                                    .strokeBorder(Color(red: 0, green: 255, blue: 0), lineWidth: 1))
                     .disableAutocorrection(true)
                     .autocapitalization(UITextAutocapitalizationType.none)
             }
@@ -36,9 +37,9 @@ struct CreateNoteView: View {
                     .font(.system(size: 14))
                     .frame(height: 100)
                     .background(RoundedRectangle(cornerRadius: 5)
-                    //.strokeBorder(Color(red: 0, green: 255, blue: 255), lineWidth: 1))
-                    .overlay(RoundedRectangle(cornerRadius: 5)
-                    .stroke(Color(red: 0, green: 255, blue: 0), lineWidth: 1)))
+                                    //.strokeBorder(Color(red: 0, green: 255, blue: 255), lineWidth: 1))
+                                    .overlay(RoundedRectangle(cornerRadius: 5)
+                                                .stroke(Color(red: 0, green: 255, blue: 0), lineWidth: 1)))
                     .disableAutocorrection(true)
                     .autocapitalization(UITextAutocapitalizationType.none)
             }
@@ -55,8 +56,8 @@ struct CreateNoteView: View {
                     msg: self.message,
                     email: authViewModel.email)
                 
-                self.viewModel.addMessage(message: message){(status) in
-                    
+                self.viewModel.addMessage(message: message){ (status) in
+                    self.selectedIndex = 0
                     //do something
                     //eg alerts if failed
                 }

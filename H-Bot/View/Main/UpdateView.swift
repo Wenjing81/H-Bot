@@ -23,10 +23,19 @@ struct UpdateView : View {
                 .font(.title)
                 .fontWeight(.bold)
             
-            TextField("Message", text: self.$msg)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
+            TextEditor(text: self.$msg)
+                .font(.system(size: 14))
+                .frame(height: 100)
+                .background(RoundedRectangle(cornerRadius: 5)
+                                //.strokeBorder(Color(red: 0, green: 255, blue: 255), lineWidth: 1))
+                                .overlay(RoundedRectangle(cornerRadius: 5)
+                                            .stroke(Color(red: 0, green: 255, blue: 0), lineWidth: 1)))
                 .disableAutocorrection(true)
                 .autocapitalization(UITextAutocapitalizationType.none)
+            //TextField("Message", text: self.$msg)
+              // .textFieldStyle(RoundedBorderTextFieldStyle())
+              //  .disableAutocorrection(true)
+              //  .autocapitalization(UITextAutocapitalizationType.none)
             
             HStack(spacing: 15){
                 

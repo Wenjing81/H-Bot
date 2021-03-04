@@ -36,7 +36,7 @@ struct MainView: View {
                 case 1:
                     NavigationView{
                         //View to create a new message.
-                        CreateNoteView()
+                        CreateNoteView(selectedIndex: self.$selectedIndex)
                     }.navigationTitle("Create new messages")
                     
                 default:

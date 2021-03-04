@@ -18,9 +18,9 @@ class AuthViewModel: ObservableObject{
     var email: String = ""
     
     // function to listen.
-    func listen(){
+    //func listen(){
         
-    }
+    //}
     
     func saveEmail(email: String){
         self.email = email

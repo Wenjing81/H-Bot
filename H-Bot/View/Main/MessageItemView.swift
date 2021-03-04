@@ -10,6 +10,7 @@ import SwiftUI
 struct MessageItemView: View {
     
     var displayMessage : Message
+    //@EnvironmentObject var viewModel : MainViewModel
     @Binding var currentMsg : String
     @Binding var docId : String
     @Binding var updateMsg : Bool
@@ -25,6 +26,8 @@ struct MessageItemView: View {
             }
 
             Text(displayMessage.msg!)
+                .fixedSize(horizontal: false, vertical: true)
+                //.lineLimit(nil)
                 //.frame(width: 160)
                 .font(.title3)
                 .onTapGesture {
@@ -35,7 +38,7 @@ struct MessageItemView: View {
                     }
                 }
             
-            Divider()
+            //Divider()
         }
     }
 }
