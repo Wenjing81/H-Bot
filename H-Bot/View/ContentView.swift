@@ -9,15 +9,15 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @EnvironmentObject var store: AuthViewModel
+    @EnvironmentObject var viewModel: AuthViewModel
     
     func getUser(){
-        store.listen()
+        viewModel.listen()
     }
     
     var body: some View {
         Group {
-            if(store.isLogged){
+            if(viewModel.isLogged){
                 MainView()
             }else {
                 AuthView()

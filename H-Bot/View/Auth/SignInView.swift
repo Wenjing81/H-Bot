@@ -9,10 +9,10 @@ import SwiftUI
 
 struct SignInView: View {
     
+    @EnvironmentObject var viewModel: AuthViewModel
     @State var email: String = ""
     @State var password: String = ""
     @State var error: String = ""
-    @EnvironmentObject var store: AuthViewModel
     
     var body: some View{
         VStack{
@@ -59,8 +59,8 @@ struct SignInView: View {
             
             Spacer()
             
-            NavigationLink(destination: SignUpView()){
-                HStack{
+            NavigationLink(destination: SignUpView()) {
+                HStack {
                     Text("New user.")
                         .font(.system(size: 20, weight: .light))
                         .foregroundColor(Color(.systemGreen))
@@ -69,19 +69,21 @@ struct SignInView: View {
                         .font(.system(size: 20, weight: .light))
                         .foregroundColor(Color(.systemGreen))
                 }
+                .padding(.bottom)
             }
         }
         .padding(.horizontal, 32)
     }
     
     func signIn(){
-        store.signIn(email: email, password: password) { (result, error) in
+        viewModel.signIn(email: email, password: password) { (result, error) in
             if let error = error {
                 self.error = error.localizedDescription
             } else {
+                viewModel.isLogged = true
+                viewModel.saveEmail(email: email)
                 self.email = ""
                 self.password = ""
-                store.isLogged = true
             }
         }
     }

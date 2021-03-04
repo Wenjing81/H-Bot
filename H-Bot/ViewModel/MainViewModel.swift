@@ -16,18 +16,15 @@ class MainViewModel: ObservableObject{
     
     let ref = Firestore.firestore()
     
-    init(){
+    init() {
         //self.getAllMessages()
     }
     
     func getAllMessages(){
         //sorting messages...
         messages.removeAll()
-        ref.collection("Messages").order(by: "date",descending: false).addSnapshotListener{
-            (snap, err) in
-            
+        ref.collection("Messages").order(by: "date",descending: false).addSnapshotListener{ (snap, err) in
             guard let docs = snap else{return}
-            
             docs.documentChanges.forEach {(doc) in
                 print("1--->")
                 print(doc.document.data())
@@ -39,7 +36,6 @@ class MainViewModel: ObservableObject{
                 }
                 if doc.type == .modified{
                     //Data Modified...
-                    
                     for i in 0..<self.messages.count{
                         
                         if self.messages[i].id == message?.id!{
@@ -48,21 +44,16 @@ class MainViewModel: ObservableObject{
                         }
                     }
                 }
-                
-                
             }
         }
     }
     
     // closure or completion block....
     func addMessage(message: Message,completion: @escaping(Bool)->()){
-        
         do{
             let _ = try
-                ref.collection("Messages").addDocument(from: message){
-                    (error) in
-                    
-                    if error != nil{
+                ref.collection("Messages").addDocument(from: message){ (error) in
+                    if error != nil {
                         completion(false)
                         return
                     }
@@ -70,7 +61,6 @@ class MainViewModel: ObservableObject{
                 }
         }
         catch{
-            
             print(error.localizedDescription)
             completion(false)
         }
@@ -78,24 +68,17 @@ class MainViewModel: ObservableObject{
     
     
     func deleteMessage(docId : Int){
-        
         ref.collection("Messages").document(messages[docId].id!).delete{(error) in
-            
             if error != nil{
-                
                 return
             }
             self.messages.remove(at: docId)
-            
         }
-        
     }
     
-    
-    func updateMessage(message: String, docId: String, completion:@escaping (Bool) -> ()){
-        
-        ref.collection("Messages").document(docId).updateData(["message":message]) {(error) in
-            
+    func updateMessage(message: String, email: String, docId: String, completion:@escaping (Bool) -> ()){
+        ref.collection("Messages").document(docId).updateData(["message":message, "email":email]) {
+            (error) in
             if error != nil {
                 print("error update message!\(String(describing: error))")
                 completion(false)

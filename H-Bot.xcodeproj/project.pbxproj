@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C572042325F15DAE00385555 /* MessageListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C572042225F15DAE00385555 /* MessageListView.swift */; };
+		C572042625F1658B00385555 /* SignOutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C572042525F1658B00385555 /* SignOutView.swift */; };
+		C572042925F165D900385555 /* CreateNoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C572042825F165D900385555 /* CreateNoteView.swift */; };
+		C572042C25F1671800385555 /* UpdateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C572042B25F1671800385555 /* UpdateView.swift */; };
+		C572042F25F1696500385555 /* MessageItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C572042E25F1696500385555 /* MessageItemView.swift */; };
 		C59B85D425E7F032008E9409 /* H_BotApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C59B85D325E7F032008E9409 /* H_BotApp.swift */; };
 		C59B85D825E7F034008E9409 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C59B85D725E7F034008E9409 /* Assets.xcassets */; };
 		C59B85DB25E7F034008E9409 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C59B85DA25E7F034008E9409 /* Preview Assets.xcassets */; };
@@ -38,6 +43,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C572042225F15DAE00385555 /* MessageListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageListView.swift; sourceTree = "<group>"; };
+		C572042525F1658B00385555 /* SignOutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOutView.swift; sourceTree = "<group>"; };
+		C572042825F165D900385555 /* CreateNoteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNoteView.swift; sourceTree = "<group>"; };
+		C572042B25F1671800385555 /* UpdateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateView.swift; sourceTree = "<group>"; };
+		C572042E25F1696500385555 /* MessageItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageItemView.swift; sourceTree = "<group>"; };
 		C59B85D025E7F032008E9409 /* H-Bot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "H-Bot.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C59B85D325E7F032008E9409 /* H_BotApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = H_BotApp.swift; sourceTree = "<group>"; };
 		C59B85D725E7F034008E9409 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -81,6 +91,27 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C572043125F16E1D00385555 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				C5FE9CBC25E7FBB4009DAB23 /* SignInView.swift */,
+				C5FE9CBE25E7FBB4009DAB23 /* SignUpView.swift */,
+				C572042525F1658B00385555 /* SignOutView.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		C572043225F16E3D00385555 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				C572042B25F1671800385555 /* UpdateView.swift */,
+				C572042825F165D900385555 /* CreateNoteView.swift */,
+				C572042225F15DAE00385555 /* MessageListView.swift */,
+				C572042E25F1696500385555 /* MessageItemView.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
 		C59B85C725E7F032008E9409 = {
 			isa = PBXGroup;
 			children = (
@@ -123,11 +154,11 @@
 		C5FE9CB425E7FB7C009DAB23 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				C5FE9CBF25E7FBB4009DAB23 /* AuthView.swift */,
 				C5FE9CC025E7FBB4009DAB23 /* ContentView.swift */,
+				C5FE9CBF25E7FBB4009DAB23 /* AuthView.swift */,
 				C5FE9CBD25E7FBB4009DAB23 /* MainView.swift */,
-				C5FE9CBC25E7FBB4009DAB23 /* SignInView.swift */,
-				C5FE9CBE25E7FBB4009DAB23 /* SignUpView.swift */,
+				C572043125F16E1D00385555 /* Auth */,
+				C572043225F16E3D00385555 /* Main */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -249,13 +280,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				C5FE9CC425E7FBB4009DAB23 /* AuthView.swift in Sources */,
+				C572042C25F1671800385555 /* UpdateView.swift in Sources */,
+				C572042625F1658B00385555 /* SignOutView.swift in Sources */,
 				C5FE9CBA25E7FBA4009DAB23 /* Message.swift in Sources */,
 				C5FE9CD125E7FFD4009DAB23 /* MainViewModel.swift in Sources */,
 				C5FE9CCC25E7FD82009DAB23 /* AuthViewModel.swift in Sources */,
 				C5FE9CC525E7FBB4009DAB23 /* ContentView.swift in Sources */,
 				C5FE9CC125E7FBB4009DAB23 /* SignInView.swift in Sources */,
 				C5FE9CC225E7FBB4009DAB23 /* MainView.swift in Sources */,
+				C572042925F165D900385555 /* CreateNoteView.swift in Sources */,
 				C5FE9CC325E7FBB4009DAB23 /* SignUpView.swift in Sources */,
+				C572042F25F1696500385555 /* MessageItemView.swift in Sources */,
+				C572042325F15DAE00385555 /* MessageListView.swift in Sources */,
 				C59B85D425E7F032008E9409 /* H_BotApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

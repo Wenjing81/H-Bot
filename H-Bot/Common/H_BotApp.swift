@@ -17,7 +17,9 @@ struct H_BotApp: App {
     
     var body: some Scene {
         WindowGroup {
-            ContentView().environmentObject(AuthViewModel())
+            ContentView()
+                .environmentObject(AuthViewModel())
+                .environmentObject(MainViewModel())
         }
     }
 }

@@ -14,13 +14,21 @@ class AuthViewModel: ObservableObject{
     
     @Published var isLogged: Bool = false
     var handle: AuthStateDidChangeListenerHandle? = nil
-    var uid: String = ""
-    var email: String? = nil
+    //var uid: String = ""
+    var email: String = ""
     
     // function to listen.
     func listen(){
         
     }
+    
+    func saveEmail(email: String){
+        self.email = email
+        print("3--->")
+        print(self.email)
+        print("4--->")
+    }
+    
     //Create the new user using "createUser" method from Authentication of Firebase.
     func signUp(email: String, password: String, handler: @escaping AuthDataResultCallback){
         Auth.auth().createUser(withEmail: email, password: password, completion: handler)
