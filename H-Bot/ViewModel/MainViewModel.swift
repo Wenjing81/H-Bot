@@ -23,7 +23,7 @@ class MainViewModel: ObservableObject{
     func getAllMessages(){
         //sorting messages...
         messages.removeAll()
-        ref.collection("Messages").order(by: "date",descending: false).addSnapshotListener{ (snap, err) in
+        ref.collection("Messages").order(by: "date",descending: true).addSnapshotListener{ (snap, err) in
             guard let docs = snap else{return}
             docs.documentChanges.forEach {(doc) in
                 print("1--->")

@@ -8,11 +8,10 @@
 import SwiftUI
 
 struct SignUpView: View {
-    
+    @EnvironmentObject var viewModel: AuthViewModel
     @State var email: String = ""
     @State var password: String = ""
     @State var error: String = ""
-    @EnvironmentObject var viewModel: AuthViewModel
     
     var body: some View{
         //Layout design for sign up View.
@@ -70,6 +69,7 @@ struct SignUpView: View {
                 self.error = error.localizedDescription
             } else {
                 //When you succeed in registering, the user's data should have been uploaded to Authentication of Firebase and the area on the page should be empty.
+                viewModel.saveEmail(email: email)
                 self.email = ""
                 self.password = ""
                 viewModel.isLogged = true
