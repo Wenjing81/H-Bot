@@ -92,19 +92,17 @@ class MainViewModel: ObservableObject{
     }
     
     
-    func updateMessage(message: String,docId: String,completion:@escaping (Bool) -> ()){
+    func updateMessage(message: String, docId: String, completion:@escaping (Bool) -> ()){
         
-        ref.collection("Messsages").document(docId).updateData(["message":message]) {(error) in
+        ref.collection("Messages").document(docId).updateData(["message":message]) {(error) in
             
-            if error != nil{
-                
+            if error != nil {
+                print("error update message!\(String(describing: error))")
                 completion(false)
                 return
             }
+            print("good-update message!")
             completion(true)
-            
         }
     }
-    
-    
 }

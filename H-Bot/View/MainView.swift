@@ -102,26 +102,26 @@ struct MessageListView: View {
                         Text(message.msg!)
                             .onTapGesture{
                                 self.docId = message.id!
-                                
+                                self.message = message.msg!
                                 withAnimation{
                                     self.updateMsg.toggle()
                                 }
                             }
                     }
                     .onDelete{(indexSet) in
-                        
                         for index in indexSet{
                             self.messageViewModel.deleteMessage(docId: index)
                         }
                     }
                 }
-                
                 .padding()
             }
             
             if self.updateMsg{
-                UpdateView(messageViewModel: self.messageViewModel,dismiss: self.$updateMsg, docId: self.$docId)
-                
+                UpdateView(messageViewModel: self.messageViewModel,
+                           dismiss: self.$updateMsg,
+                           docId: self.$docId,
+                           msg: self.$message)
             }
         }
         .navigationBarTitle("Messages")
@@ -130,8 +130,6 @@ struct MessageListView: View {
         .onAppear{
             //or you can call it in init....
             self.messageViewModel.getAllMessages()
-            
-            
         }
     }
 }
@@ -145,7 +143,7 @@ struct UpdateView : View {
     @ObservedObject var messageViewModel: MainViewModel
     @Binding var dismiss : Bool
     @Binding var docId :String
-    @State var message = ""
+    @Binding var msg: String
     
     var body: some View{
         
@@ -155,15 +153,17 @@ struct UpdateView : View {
                 .font(.title)
                 .fontWeight(.bold)
             
-            TextField("Message", text: self.$message)
+            TextField("Message", text: self.$msg)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
+                .disableAutocorrection(true)
+                .autocapitalization(UITextAutocapitalizationType.none)
             
             HStack(spacing: 15){
                 
                 Button(action: {
                     
                     //Updating...
-                    self.messageViewModel.updateMessage(message: self.message, docId: self.docId){
+                    self.messageViewModel.updateMessage(message: self.msg, docId: self.docId){
                         (status) in
                         
                         //do something if failed...
@@ -229,6 +229,7 @@ struct CreateNoteView: View {
                                                 .stroke(Color(red: 0, green: 255, blue: 255), lineWidth: 1)))
                     .padding()
             }
+            .navigationBarTitle("Any problems?")
             
             
             Spacer()
@@ -259,32 +260,6 @@ struct CreateNoteView: View {
         
         Spacer()
     }
-    /*HStack(spacing: 15){
-     TextField("Message", text: self.$message)
-     .textFieldStyle(RoundedBorderTextFieldStyle())
-     Button(action:{
-     
-     //saving message...
-     //auto id ...
-     
-     let message = Message(date: .init(date: Date()), msg: self.message)
-     
-     self.messageViewModel.addMessage(message: message){(status) in
-     
-     //do something
-     //eg alerts if failed
-     }
-     
-     self.message = ""
-     })
-     {
-     Text("Add")
-     .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
-     }
-     }
-     }
-     }*/
-    
     struct CreateNoteView_Previews: PreviewProvider {
         static var previews: some View {
             CreateNoteView().environmentObject(MainViewModel())
@@ -307,6 +282,6 @@ struct SignOutView: View {
                     .background(LinearGradient(gradient: Gradient(colors: [Color(.systemGreen), Color(.systemBlue)]), startPoint: /*@START_MENU_TOKEN@*/.leading/*@END_MENU_TOKEN@*/, endPoint: /*@START_MENU_TOKEN@*/.trailing/*@END_MENU_TOKEN@*/))
                     .cornerRadius(5)
             }
-        }
+        }.navigationBarTitle("Sign out?")
     }
 }

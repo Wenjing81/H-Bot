@@ -29,6 +29,9 @@ struct SignInView: View {
                     .font(.system(size: 14))
                     .padding(12)
                     .background(RoundedRectangle(cornerRadius: 5).strokeBorder(Color(red: 0, green: 255, blue: 0), lineWidth: 1))
+                    .keyboardType(UIKeyboardType.emailAddress)
+                    .disableAutocorrection(true)
+                    .autocapitalization(UITextAutocapitalizationType.none)
                 
                 SecureField("Password", text: $password)
                     .font(.system(size: 14))
